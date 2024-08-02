@@ -1,4 +1,7 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,76 +16,53 @@ export class MembersService {
   ) {}
 
   async create(createMemberDto: CreateMemberDto) {
-    try {
-      const member = this.membersRepository.create(createMemberDto);
-  
-      const createMember = await this.membersRepository.save(member);
-  
-      return {
-        message: 'Success create member',
-        data: createMember
-      }
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException(error.message)
-    }
+    const member = this.membersRepository.create(createMemberDto);
+
+    const createMember = await this.membersRepository.save(member);
+
+    return {
+      message: 'Success create member',
+      data: createMember,
+    };
   }
 
   async findAll() {
-    try {
-      return await this.membersRepository.find({
-        relations: ['borrows.book']
-      });
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException(error.message)
-    }
+    return await this.membersRepository.find({
+      relations: ['borrows.book'],
+    });
   }
 
   async findOne(id: number) {
-    try {
-      const member = await this.membersRepository.findOne({ where: { id: id } });
-      if (!member) {
-        throw new NotFoundException('Member not found')
-      }
-      return member;
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException(error.message)
+    const member = await this.membersRepository.findOne({
+      where: { id: id },
+    });
+    if (!member) {
+      throw new NotFoundException('Member not found');
     }
+    return member;
   }
 
   async update(id: number, updateMemberDto: UpdateMemberDto) {
-    try {
-      const member = await this.findOne(id)
-  
-      Object.assign(member, updateMemberDto)
-      
-      const updateMember = await this.membersRepository.save(member)
-  
-      return {
-        message: 'Success update member',
-        data: updateMember
-      }
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException(error.message)
-    }
+    const member = await this.findOne(id);
+
+    Object.assign(member, updateMemberDto);
+
+    const updateMember = await this.membersRepository.save(member);
+
+    return {
+      message: 'Success update member',
+      data: updateMember,
+    };
   }
 
   async remove(id: number) {
-    try {
-      const member = await this.findOne(id)
-  
-      const deleteMember = await this.membersRepository.remove(member)
-  
-      return {
-        message: 'Success delete member',
-        data: deleteMember
-      }
-    } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException(error.message)
-    }
+    const member = await this.findOne(id);
+
+    const deleteMember = await this.membersRepository.remove(member);
+
+    return {
+      message: 'Success delete member',
+      data: deleteMember,
+    };
   }
 }

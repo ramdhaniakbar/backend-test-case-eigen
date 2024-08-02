@@ -1,4 +1,3 @@
-import { Book } from 'src/books/entities/book.entity';
 import { Borrow } from 'src/borrows/entities/borrow.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -12,6 +11,9 @@ export class Member {
 
   @Column({ type: 'character varying' })
   name: string;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  penalty_period: Date;
 
   @OneToMany(() => Borrow, (borrow) => borrow.member)
   borrows: Borrow[]

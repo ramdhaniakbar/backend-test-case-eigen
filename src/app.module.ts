@@ -7,6 +7,7 @@ import { join } from 'path';
 import { BooksModule } from './books/books.module';
 import { MembersModule } from './members/members.module';
 import { BorrowsModule } from './borrows/borrows.module';
+import { ReturnsModule } from './returns/returns.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { BorrowsModule } from './borrows/borrows.module';
     }),
     BooksModule,
     MembersModule,
-    BorrowsModule
+    BorrowsModule,
+    ReturnsModule
   ],
   controllers: [AppController],
   providers: [AppService],
