@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { AllExceptionsFilter } from './filters/all-exception.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +25,16 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('Books API')
+    .setDescription('The API for borrow the book system')
+    .setVersion('1.0')
+    .addTag('books')
+    .build()
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('api', app, document)
+
   await app.listen(3000);
 }
 bootstrap();

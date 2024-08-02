@@ -90,8 +90,10 @@ export class BorrowsService {
   }
 
   async findAll() {
-    return await this.borrowsRepository.find({
-      relations: ['book', 'member']
-    })
+    return await this.borrowsRepository.createQueryBuilder('borrow')
+      .leftJoinAndSelect('borrow.book', 'book')
+      .leftJoinAndSelect('borrow.member', 'member')
+      .where('borrow.status = :status', { status: 'Borrowed' })
+      .getMany()
   }
 }

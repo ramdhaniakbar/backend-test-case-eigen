@@ -43,6 +43,7 @@ export class ReturnsService {
           book: book,
           borrow_code: createReturnDto.borrow_code,
         },
+        relations: { book: true, member: true },
       });
 
       // check the book is exist
@@ -50,25 +51,34 @@ export class ReturnsService {
         throw new NotFoundException('Borrow book not found');
       }
 
-      const returnDate = moment(checkBorrow.return_date)
-      const currentDate = moment()
+      const returnDate = moment(checkBorrow.return_date);
+      const currentDate = moment();
 
       // check if the book is returned late
       if (returnDate.isBefore(currentDate)) {
         member.penalty_period = currentDate.add(3, 'days').toDate();
-        await manager.save(member)
+        await manager.save(member);
       }
 
       book.stock += 1;
-      await manager.save(book)
+      await manager.save(book);
 
-      checkBorrow.status = 'Returned'
-      await manager.save(checkBorrow)
+      checkBorrow.status = 'Returned';
+      await manager.save(checkBorrow);
 
       return {
         message: 'Success return book',
-        data: checkBorrow
-      }
+        data: checkBorrow,
+      };
     });
+  }
+
+  async findAll() {
+    return await this.borrowsRepository
+      .createQueryBuilder('borrow')
+      .leftJoinAndSelect('borrow.book', 'book')
+      .leftJoinAndSelect('borrow.member', 'member')
+      .where('borrow.status = :status', { status: 'Returned' })
+      .getMany();
   }
 }
