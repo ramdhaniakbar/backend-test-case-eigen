@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { BorrowsService } from './borrows.service';
 import { CreateBorrowDto } from './dto/create-borrow.dto';
 
@@ -8,7 +8,13 @@ export class BorrowsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async borrow_book(@Body() createBorrowDto: CreateBorrowDto) {
+  borrowBook(@Body() createBorrowDto: CreateBorrowDto) {
     return this.borrowsService.borrowBook(createBorrowDto);
+  }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAll() {
+    return this.borrowsService.findAll()
   }
 }

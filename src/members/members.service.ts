@@ -27,9 +27,11 @@ export class MembersService {
   }
 
   async findAll() {
-    return await this.membersRepository.find({
-      relations: ['borrows.book'],
-    });
+    return await this.membersRepository.createQueryBuilder('member')
+      .leftJoinAndSelect('member.borrows', 'borrow')
+      .leftJoinAndSelect('borrow.book', 'book')
+      .where('borrow.status = :status', { status: 'Borrowed' })
+      .getMany()
   }
 
   async findOne(id: number) {

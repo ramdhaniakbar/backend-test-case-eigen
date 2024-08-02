@@ -23,7 +23,9 @@ export class BooksService {
   }
 
   async findAll() {
-    return await this.booksRepository.find();
+    return await this.booksRepository.createQueryBuilder('book')
+      .where('book.stock > 0')
+      .getMany()
   }
 
   async findOne(id: number) {
