@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { BooksModule } from './books/books.module';
+import { MembersModule } from './members/members.module';
+import { BorrowsModule } from './borrows/borrows.module';
 
 @Module({
   imports: [
@@ -19,11 +21,13 @@ import { BooksModule } from './books/books.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [join(process.cwd(), 'dist/**/*.entity.js')],
+        entities: [join(__dirname, '**/*.entity{.ts,.js}')],
         synchronize: true,
       }),
     }),
     BooksModule,
+    MembersModule,
+    BorrowsModule
   ],
   controllers: [AppController],
   providers: [AppService],
