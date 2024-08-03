@@ -5,7 +5,6 @@ import BookSeeder from './seeds/book.seeder';
 import { Book } from '../books/entities/book.entity';
 import { Member } from '../members/entities/member.entity';
 import { Borrow } from '../borrows/entities/borrow.entity';
-import { join } from 'path';
 import MemberSeeder from './seeds/member.seeder';
 
 config();
@@ -18,7 +17,7 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: [Book, Member, Borrow],
-  seeds: [BookSeeder],
+  seeds: [BookSeeder, MemberSeeder],
   synchronize: true,
 };
 
