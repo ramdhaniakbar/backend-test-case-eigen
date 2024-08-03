@@ -1,5 +1,4 @@
-import { Borrow } from "src/borrows/entities/borrow.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'books' })
 export class Book {

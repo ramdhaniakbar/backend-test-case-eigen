@@ -1,4 +1,4 @@
-import { Borrow } from 'src/borrows/entities/borrow.entity';
+import { Borrow } from '../../borrows/entities/borrow.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'members' })
