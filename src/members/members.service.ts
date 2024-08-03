@@ -30,8 +30,7 @@ export class MembersService {
     return await this.membersRepository.createQueryBuilder('member')
       .leftJoinAndSelect('member.borrows', 'borrow')
       .leftJoinAndSelect('borrow.book', 'book')
-      .where('borrow.status = :status', { status: 'Borrowed' })
-      .getMany()
+      .getMany();
   }
 
   async findOne(id: number) {

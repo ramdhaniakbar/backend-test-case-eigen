@@ -64,7 +64,7 @@ export class BorrowsService {
           id: 'DESC',
         },
       });
-      const autoIncrement = lastBorrow ? lastBorrow[0].id + 1 : 1;
+      const autoIncrement = lastBorrow.length > 0 ? lastBorrow[0].id + 1 : 1;
 
       // proceed with creating the borrow record
       const borrow = new Borrow();
